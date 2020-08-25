@@ -11,6 +11,7 @@ fn main() {
     llist.push("Something");
     llist.print_list();
     println!("Pop last item: {}", llist.pop().unwrap());
+    llist.print_list();
 }
 
 type NodePtr<T> = Option<Box<Node<T>>>;
