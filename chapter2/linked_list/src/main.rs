@@ -10,6 +10,7 @@ fn main() {
     llist.push("Another");
     llist.push("Something");
     llist.print_list();
+    println!("Pop last item: {}", llist.pop().unwrap());
 }
 
 type NodePtr<T> = Option<Box<Node<T>>>;
@@ -60,5 +61,15 @@ impl<T: std::fmt::Display> LinkedList<T> {
         if let Some(x) = &self.first {
             x.print_node();
         };
+    }
+    // Pop item off of list
+    fn pop(&mut self) -> Option<T> {
+        match self.first.take() {
+            Some(x) => {
+                self.first = x.next;
+                return Some(x.data);
+            }
+            _ => return None,
+        }
     }
 }
