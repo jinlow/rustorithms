@@ -1,12 +1,13 @@
 fn main() {
-    let mut llist = LinkedList::new(10);
+    let mut llist = LinkedList::new();
+    llist.push(10);
     llist.push(11);
     llist.push(16);
     llist.print_list();
-    llist.print_list();
 
     println!("Create a linked list with strings");
-    let mut llist = LinkedList::new("A");
+    let mut llist = LinkedList::new();
+    llist.push("A");
     llist.push("Another");
     llist.push("Something");
     llist.print_list();
@@ -22,12 +23,6 @@ struct Node<T: std::fmt::Display> {
 }
 
 impl<T: std::fmt::Display> Node<T> {
-    fn new(data: T) -> Self {
-        Node {
-            data: data,
-            next: None,
-        }
-    }
     fn print_node(&self) {
         println!("Node value {}", self.data);
         match &self.next {
@@ -37,17 +32,15 @@ impl<T: std::fmt::Display> Node<T> {
     }
 }
 
+// Stack data structure implemented as a linked list.
 struct LinkedList<T: std::fmt::Display> {
     first: NodePtr<T>,
 }
 
 impl<T: std::fmt::Display> LinkedList<T> {
     // New Linked List
-    fn new(start_value: T) -> Self {
-        let new_node = Box::new(Node::new(start_value));
-        LinkedList {
-            first: Some(new_node),
-        }
+    fn new() -> Self {
+        LinkedList { first: None }
     }
     // Push data onto front of list
     fn push(&mut self, data: T) {
