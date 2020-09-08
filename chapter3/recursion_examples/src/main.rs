@@ -5,6 +5,7 @@ fn main() {
     print_rectangle(8);
     let ar: [i32; 3] = [1, 2, 3];
     println!("Recursive Sum of {:?} is: {}", ar, recursive_sum(&ar));
+    println!("Array length is: {} check: {}", arr_len(&ar), ar.len());
 }
 
 // The factorial function:
@@ -27,6 +28,21 @@ fn recursive_sum<T: Copy + std::ops::Add<Output = T>>(x: &[T]) -> T {
     }
 }
 
+// Count the number of items in an array
+fn arr_len<T>(x: &[T]) -> usize {
+    if x.is_empty() {
+        return 0;
+    } else {
+        return 1 + arr_len(&x[1..]);
+    }
+}
+
+// Print a rectangle to the terminal, given a side length
+fn print_rectangle(height: usize) {
+    print_diags(0, height);
+    println!(" {}", rep_char(height * 2, "-"))
+}
+
 fn rep_char(n: usize, cr: &str) -> String {
     std::iter::repeat(cr).take(n).collect::<String>()
 }
@@ -42,9 +58,4 @@ fn print_diags(level: usize, height: usize) {
         );
         print_diags(level + 1, height);
     }
-}
-
-fn print_rectangle(height: usize) {
-    print_diags(0, height);
-    println!(" {}", rep_char(height * 2, "-"))
 }
