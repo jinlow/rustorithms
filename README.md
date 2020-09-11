@@ -10,4 +10,5 @@ The following algorithms have been implemented using Rust as examples of topics 
   - Chatper 3
     + Recursion
   - Chatper 4
+    + Quicksort
 
