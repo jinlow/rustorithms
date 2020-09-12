@@ -1,13 +1,9 @@
+use rand::Rng;
+
 fn main() {
     let mut a1: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
     println!("Unsorted array: {:?}", a1);
     quicksort(&mut a1);
-    println!("Sorted array: {:?}", a1);
-
-    // Second implementation
-    let mut a1: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
-    println!("Unsorted array: {:?}", a1);
-    quicksort_mv(&mut a1);
     println!("Sorted array: {:?}", a1);
 }
 
@@ -16,6 +12,20 @@ fn pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
     let pivot: usize = 0;
     let mut low: usize = 1;
     let mut high: usize = x.len() - 1;
+
+    // Select median-of-three as pivot
+    let mid: usize = high / 2;
+    if x[pivot] > x[mid] {
+        x.swap(pivot, mid)
+    }
+    if x[high] < x[pivot] {
+        x.swap(high, pivot);
+    }
+    if x[mid] > x[high] {
+        x.swap(mid, high);
+    }
+    x.swap(pivot, mid);
+
     let max_idx = high;
     while low < high {
         while (x[high] >= x[pivot]) && (high > 0) {
@@ -38,8 +48,8 @@ fn pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
 }
 
 // Quicksort implementation
-// This is the more efficient implementation unless the input array is already
-// sorted.
+// This utilizes the median of three approach to help
+// reduce the chance of selecting a bad pivot value.
 fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
     if x.len() < 2 {
         return;
@@ -47,38 +57,6 @@ fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
         let pivot = pivot_array(x);
         quicksort(&mut x[..pivot]);
         quicksort(&mut x[(pivot + 1)..]);
-    }
-}
-
-// Move a given element in front of another given element
-fn move_front<T>(x: &mut [T], i: usize, j: usize) {
-    for k in 0..(j - i) {
-        x.swap(j - (k + 1), j - k)
-    }
-}
-
-// Pivot the array around the first element
-// Currently this uses the move front function
-// which is likely inefficient.
-fn pivot_array_mv<T: std::cmp::Ord>(x: &mut [T]) -> usize {
-    let mut pivot: usize = 0;
-    for i in 1..(x.len()) {
-        if x[i] < x[pivot] {
-            move_front(x, pivot, i);
-            pivot = pivot + 1;
-        }
-    }
-    pivot
-}
-
-// Quicksort implementation
-fn quicksort_mv<T: std::cmp::Ord>(x: &mut [T]) {
-    if x.len() < 2 {
-        return;
-    } else {
-        let pivot = pivot_array_mv(x);
-        quicksort_mv(&mut x[..pivot]);
-        quicksort_mv(&mut x[(pivot + 1)..]);
     }
 }
 
@@ -102,11 +80,20 @@ mod tests {
     }
 
     #[test]
-    fn test_compare_quick_sorts() {
-        let mut a1: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
-        let mut a2: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
+    fn test_qs_on_sorted() {
+        let mut a1: Vec<i32> = (0..10000).collect();
+        let a2: Vec<i32> = (0..10000).collect();
         quicksort(&mut a1);
-        quicksort_mv(&mut a2);
+        assert_eq!(a1, a2);
+    }
+
+    #[test]
+    fn test_random_vector() {
+        let mut rng = rand::thread_rng();
+        let mut a1: Vec<i32> = (0..10000).map(|_| rng.gen_range(0, 10000)).collect();
+        let mut a2 = a1.to_vec();
+        quicksort(&mut a1);
+        a2.sort();
         assert_eq!(a1, a2);
     }
 
