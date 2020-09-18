@@ -1,5 +1,7 @@
 **/target
 .vscode/
 
+.ipynb_checkpoints/
+
 Cargo.lock
 
