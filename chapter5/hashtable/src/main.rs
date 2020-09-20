@@ -13,6 +13,10 @@ fn main() {
     );
 }
 
+// impl calc_hash for Num {
+//     1
+// }
+
 fn calc_hash<T: Hash>(x: &T) -> u64 {
     let mut hasher = DefaultHasher::new();
     x.hash(&mut hasher);
