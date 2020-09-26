@@ -13,3 +13,6 @@ The following algorithms have been implemented using Rust as examples of topics 
     + Quicksort
   - Chapter 5
     + Hashtable
+
+### Trying yourself...
+Each algorithm is implemented as a separate rust binary. The code all was built using rust 1.46.0. To try any of the algorithms clone the repo, then `cd` into the one of the chapter algorithm folders then run `cargo run` to see an example of the algorithm being used.
