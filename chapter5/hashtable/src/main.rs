@@ -12,34 +12,38 @@ fn main() {
         calc_hash(&c),
     );
 
-    let mut ht = Hashtable::<i32, i32>::new();
-    ht.add(10, 10);
-    ht.add(11, 11);
+    let mut ht = Hashtable::<i32, String>::new();
+    ht.add(10, String::from("10"));
+    ht.add(11, String::from("11"));
     ht.print_ht();
     println!("Key 10, data: {}", ht.get(10).unwrap());
-    ht.add(10, 50);
-    ht.add(30, 30);
-    ht.add(50, 50);
-    ht.add(100, 100);
+    ht.delete(11).unwrap();
+    ht.print_ht();
+    ht.add(10, String::from("50"));
+    ht.add(30, String::from("30"));
+    ht.add(50, String::from("50"));
+    ht.add(100, String::from("100"));
     ht.print_ht();
     for i in 0..20 {
-        ht.add(i, i);
+        ht.add(i, String::from(i.to_string()));
     }
 
     ht.print_ht();
 }
 
+// TODO: Add tests...
+// A Hashtable -
+// This is a hashtable, modeled after the dictionaries in CPython.
 struct Hashtable<K, V> {
     size: usize,
     sparse_key: Vec<Option<i64>>,
-    data: Vec<Option<(u64, K, V)>>,
+    data: Vec<Option<Box<(u64, K, V)>>>,
 }
 
-// TODO: Adjust so that Copy trait is not needed.
 impl<K, V> Hashtable<K, V>
 where
-    K: Copy + std::cmp::Eq + Hash + std::fmt::Display,
-    V: Copy + std::cmp::Eq + std::fmt::Display,
+    K: std::cmp::Eq + Hash + std::fmt::Display,
+    V: std::cmp::Eq + std::fmt::Display,
 {
     pub fn new() -> Self {
         Hashtable {
@@ -61,7 +65,7 @@ where
         match pos {
             Some(p) => {
                 if p >= 0 {
-                    let val = self.data[p as usize].unwrap();
+                    let val = self.data[p as usize].as_ref().unwrap();
                     if (*hash_value == val.0) && (*key == val.1) {
                         return idx;
                     } else {
@@ -87,7 +91,7 @@ where
                 Some(p) => {
                     if p >= 0 {
                         // println!("Gotten this far");
-                        let val = self.data[p as usize].unwrap();
+                        let val = self.data[p as usize].as_ref().unwrap();
                         if (*hash_value == val.0) && (*key == val.1) {
                             return i;
                         }
@@ -113,10 +117,10 @@ where
         let idx = self._get_final_index(&hash_value, &key);
         let pos = self.sparse_key[idx];
         match pos {
-            Some(p) => self.data[p as usize] = Some((hash_value, key, value)),
+            Some(p) => self.data[p as usize] = Some(Box::new((hash_value, key, value))),
             None => {
                 self.sparse_key[idx] = Some(self.data.len() as i64);
-                self.data.push(Some((hash_value, key, value)));
+                self.data.push(Some(Box::new((hash_value, key, value))));
             }
         }
     }
@@ -126,39 +130,42 @@ where
         self.size *= 2;
         self.sparse_key = (0..self.size).map(|_| None).collect();
         for slot in 0..self.data.len() {
-            let dt = self.data[slot];
+            let dt = &self.data[slot];
             if let Some(d) = dt {
-                let (hash_value, key, _) = d;
-                let idx = self._get_final_index(&hash_value, &key);
+                let idx = self._get_final_index(&d.0, &d.1);
                 self.sparse_key[idx] = Some(slot as i64);
             }
         }
     }
 
-    pub fn get(&self, key: K) -> Option<V> {
+    // get item from the hashtable
+    pub fn get(&self, key: K) -> Option<&V> {
         let hash_value = calc_hash(&key);
         let idx = self._get_final_index(&hash_value, &key);
         let pos = self.sparse_key[idx];
         match pos {
             Some(p) => {
-                let val = self.data[p as usize].unwrap();
-                return Some(val.2);
+                let val = self.data[p as usize].as_ref().unwrap();
+                Some(&val.2)
             }
             None => return None,
         }
     }
 
-    // def delete(self, key):
-    //     # Right now we will just delete the item... and leave as none.
-    //     # We will add a compression method later... When to call it though...
-    //     hash_value = hash(key)
-    //     idx = self._get_final_index(hash_value, key)
-    //     pos = self.sparse_key[idx]
-    //     if pos is None:
-    //         raise KeyError(f"The key {key} was not found.")
-    //     else:
-    //         self.data[pos] = None
-    //         self.sparse_key[idx] = -1
+    // Delete an item in the hashtable
+    pub fn delete(&mut self, key: K) -> Result<(), &str> {
+        let hash_value = calc_hash(&key);
+        let idx = self._get_final_index(&hash_value, &key);
+        let pos = self.sparse_key[idx];
+        match pos {
+            Some(p) => {
+                self.data[p as usize] = None;
+                self.sparse_key[idx] = Some(-1);
+                Ok(())
+            }
+            None => Err("Key not found"),
+        }
+    }
 
     // print the contents of the hashtable
     pub fn print_ht(&self) {
