@@ -24,16 +24,13 @@ fn main() {
     ht.add(50, String::from("50"));
     ht.add(100, String::from("100"));
     ht.print_ht();
-    for i in 0..20 {
-        ht.add(i, String::from(i.to_string()));
-    }
-
-    ht.print_ht();
 }
 
-// TODO: Add tests...
 // A Hashtable -
 // This is a hashtable, modeled after the dictionaries in CPython.
+// The biggest difference is the hashing algorithm is different in CPython,
+// whereas I am just using the standard hash algorithm right from the Rust
+// standard library.
 struct Hashtable<K, V> {
     size: usize,
     sparse_key: Vec<Option<i64>>,
@@ -182,4 +179,66 @@ fn calc_hash<T: Hash>(x: &T) -> u64 {
     let mut hasher = DefaultHasher::new();
     x.hash(&mut hasher);
     hasher.finish()
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[test]
+    fn test_get_keys() {
+        let mut ht = Hashtable::<i32, i32>::new();
+        for k in 0..1000 {
+            ht.add(k, k);
+        }
+        let k_ord: Vec<i32> = (0..1000).map(|i| i).collect();
+        let keys: Vec<i32> = ht.data.iter().map(|x| x.as_ref().unwrap().1).collect();
+        assert_eq!(k_ord, keys);
+    }
+
+    #[test]
+    fn test_get_values() {
+        let mut ht = Hashtable::<i32, i32>::new();
+        for k in 0..1000 {
+            ht.add(k, k);
+        }
+        let k_ord: Vec<i32> = (0..1000).map(|i| i).collect();
+        let values: Vec<i32> = (0..1000).map(|k| *ht.get(k).unwrap()).collect();
+        assert_eq!(k_ord, values);
+    }
+    #[test]
+    fn test_delete_first10() {
+        let mut ht = Hashtable::<i32, i32>::new();
+        for k in 0..1000 {
+            ht.add(k, k);
+        }
+        for k in 0..10 {
+            ht.delete(k).unwrap();
+        }
+        let k_ord: Vec<i32> = (10..1000).map(|i| i).collect();
+        let keys: Vec<i32> = ht
+            .data
+            .iter()
+            .filter(|x| x.is_some())
+            .map(|x| x.as_ref().unwrap().1)
+            .collect();
+        assert_eq!(k_ord, keys);
+    }
+    #[test]
+    fn test_delete_last10() {
+        let mut ht = Hashtable::<i32, i32>::new();
+        for k in 0..1000 {
+            ht.add(k, k);
+        }
+        for k in 990..1000 {
+            ht.delete(k).unwrap();
+        }
+        let k_ord: Vec<i32> = (0..990).map(|i| i).collect();
+        let keys: Vec<i32> = ht
+            .data
+            .iter()
+            .filter(|x| x.is_some())
+            .map(|x| x.as_ref().unwrap().1)
+            .collect();
+        assert_eq!(k_ord, keys);
+    }
 }
