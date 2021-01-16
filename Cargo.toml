@@ -1,5 +1,5 @@
 [package]
-name = "grokking_algorithms"
+name = "rustorithms"
 version = "0.1.0"
 authors = ["jinlow <james.d.inlow@gmail.com>"]
 edition = "2018"
