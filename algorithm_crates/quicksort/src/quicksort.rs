@@ -1,14 +1,5 @@
-use rand::Rng;
-
-fn main() {
-    let mut a1: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
-    println!("Unsorted array: {:?}", a1);
-    quicksort(&mut a1);
-    println!("Sorted array: {:?}", a1);
-}
-
 // Pivot the array around the first element.
-fn pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
+fn _pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
     let pivot: usize = 0;
     let mut low: usize = 1;
     let mut high: usize = x.len() - 1;
@@ -50,11 +41,11 @@ fn pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
 // Quicksort implementation
 // This utilizes the median of three approach to help
 // reduce the chance of selecting a bad pivot value.
-fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
+pub fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
     if x.len() < 2 {
         return;
     } else {
-        let pivot = pivot_array(x);
+        let pivot = _pivot_array(x);
         quicksort(&mut x[..pivot]);
         quicksort(&mut x[(pivot + 1)..]);
     }
@@ -62,6 +53,7 @@ fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
 
 #[cfg(test)]
 mod tests {
+    use rand::Rng;
     use super::*;
     #[test]
     fn test_array_of_i32() {
@@ -90,7 +82,7 @@ mod tests {
     #[test]
     fn test_random_vector() {
         let mut rng = rand::thread_rng();
-        let mut a1: Vec<i32> = (0..10000).map(|_| rng.gen_range(0, 10000)).collect();
+        let mut a1: Vec<i32> = (0..10000).map(|_| rng.gen_range(0..10000)).collect();
         let mut a2 = a1.to_vec();
         quicksort(&mut a1);
         a2.sort();
@@ -100,7 +92,7 @@ mod tests {
     #[test]
     fn test_string_bytes() {
         let s_sorted = String::from("  ASTbeeghhimmnoottu").into_bytes();
-        let mut s_unsorted = String::from("Seomthing About Them").into_bytes();
+        let mut s_unsorted = String::from("Something About Them").into_bytes();
         quicksort(&mut s_unsorted);
         assert_eq!(s_sorted, s_unsorted);
     }
