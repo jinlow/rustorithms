@@ -1,3 +1,3 @@
 fn main() {
-    println!("Grokking Algorithms in Rust");
+    println!("rustorithms: Grokking Algorithms in Rust");
 }

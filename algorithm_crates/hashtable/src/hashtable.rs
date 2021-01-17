@@ -1,11 +1,12 @@
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 
-// A Hashtable -
-// This is a hashtable, modeled after the dictionaries in CPython.
-// The biggest difference is the hashing algorithm is different in CPython,
-// whereas I am just using the standard hash algorithm right from the Rust
-// standard library.
+/// A Hashtable -
+///
+/// This is a hashtable, modeled after the dictionaries in CPython.
+/// The biggest difference is the hashing algorithm is different in CPython,
+/// whereas I am just using the standard hash algorithm right from the Rust
+/// standard library.
 pub struct Hashtable<K, V> {
     size: usize,
     sparse_key: Vec<Option<i64>>,
@@ -76,7 +77,7 @@ where
         }
     }
 
-    // Add a new (key, value) pair to the hashtable
+    /// Add a new (key, value) pair to the hashtable
     pub fn add(&mut self, key: K, value: V) {
         if (self.data.len() + 1) >= (((2 * self.size) / 3) as usize) {
             self._doublesize();
@@ -110,7 +111,7 @@ where
         }
     }
 
-    // get item from the hashtable
+    /// Get item from the hashtable given a key
     pub fn get(&self, key: K) -> Option<&V> {
         let hash_value = calc_hash(&key);
         let idx = self._get_final_index(&hash_value, &key);
@@ -124,7 +125,8 @@ where
         }
     }
 
-    // Delete an item in the hashtable
+    /// Delete an item in the hashtable
+    /// for a specific key.
     pub fn delete(&mut self, key: K) -> Result<(), &str> {
         let hash_value = calc_hash(&key);
         let idx = self._get_final_index(&hash_value, &key);
@@ -139,7 +141,7 @@ where
         }
     }
 
-    // print the contents of the hashtable
+    /// Print the contents of the hashtable
     pub fn print_ht(&self) {
         println!("Hashtable Data");
         for i in self.data.iter() {
@@ -150,6 +152,8 @@ where
     }
 }
 
+/// Calculate the has value for a specific
+/// provided value.
 pub fn calc_hash<T: Hash>(x: &T) -> u64 {
     let mut hasher = DefaultHasher::new();
     x.hash(&mut hasher);

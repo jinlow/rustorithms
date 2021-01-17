@@ -4,10 +4,8 @@ version = "0.1.0"
 authors = ["jinlow <james.d.inlow@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dev-dependencies]
-rand = "0.8.2"
+[workspace]
+members=["algorithm_crates/*/"]
 
 [dependencies]
 binary_search = {version= "0.1.0", path="algorithm_crates/binary_search"}
@@ -15,19 +13,3 @@ hashtable = {version="0.1.0", path="algorithm_crates/hashtable"}
 linked_list = {version="0.1.0", path="algorithm_crates/linked_list"}
 quicksort = {version="0.1.0", path="algorithm_crates/quicksort"}
 selection_sort = {version="0.1.0", path="algorithm_crates/selection_sort"}
-
-[[test]]
-name = "hashtable_tests"
-path = "algorithm_crates/hashtable/src/lib.rs"
-
-[[test]]
-name = "linked_list_tests"
-path = "algorithm_crates/linked_list/src/lib.rs"
-
-[[test]]
-name = "quicksort_tests"
-path = "algorithm_crates/quicksort/src/lib.rs"
-
-[[test]]
-name = "selection_sort_tests"
-path = "algorithm_crates/selection_sort/src/lib.rs"

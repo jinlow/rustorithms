@@ -38,9 +38,10 @@ fn _pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
     pivot
 }
 
-// Quicksort implementation
-// This utilizes the median of three approach to help
-// reduce the chance of selecting a bad pivot value.
+/// Quicksort implementation
+///
+/// This utilizes the median of three approach to help
+/// reduce the chance of selecting a bad pivot value.
 pub fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
     if x.len() < 2 {
         return;
