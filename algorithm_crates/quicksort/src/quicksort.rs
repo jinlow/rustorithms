@@ -1,5 +1,5 @@
 // Pivot the array around the first element.
-fn _pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
+fn _pivot_array<T: std::cmp::PartialOrd>(x: &mut [T]) -> usize {
     let pivot: usize = 0;
     let mut low: usize = 1;
     let mut high: usize = x.len() - 1;
@@ -42,7 +42,7 @@ fn _pivot_array<T: std::cmp::Ord>(x: &mut [T]) -> usize {
 ///
 /// This utilizes the median of three approach to help
 /// reduce the chance of selecting a bad pivot value.
-pub fn quicksort<T: std::cmp::Ord>(x: &mut [T]) {
+pub fn quicksort<T: std::cmp::PartialOrd>(x: &mut [T]) {
     if x.len() < 2 {
         return;
     } else {
@@ -60,6 +60,14 @@ mod tests {
     fn test_array_of_i32() {
         let mut a1: [i32; 8] = [3, 1, 4, 5, 10, -1, -6, 0];
         let a2: [i32; 8] = [-6, -1, 0, 1, 3, 4, 5, 10];
+        quicksort(&mut a1);
+        assert_eq!(a1, a2)
+    }
+
+    #[test]
+    fn test_array_of_f32() {
+        let mut a1: [f32; 8] = [3.0, 1.0, 4.1, 5.1, 10.5, -1.1, -6.1, 0.0];
+        let a2: [f32; 8] = [-6.1, -1.1, 0.0, 1.0, 3.0, 4.1, 5.1, 10.5];
         quicksort(&mut a1);
         assert_eq!(a1, a2)
     }

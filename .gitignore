@@ -4,5 +4,8 @@
 .ipynb_checkpoints/
 
 Cargo.lock
+*.egg-info
+*.so
+*.pyc
 
 /target

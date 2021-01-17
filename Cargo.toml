@@ -6,6 +6,7 @@ edition = "2018"
 
 [workspace]
 members=["algorithm_crates/*/"]
+exclude=["pyorithms"]
 
 [dependencies]
 binary_search = {version= "0.1.0", path="algorithm_crates/binary_search"}
