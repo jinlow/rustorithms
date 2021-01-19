@@ -25,8 +25,8 @@ Examples of all of the algorithms are provided in the `examples/` directory. To 
 
 ### Python Bindings
 _Why not!_  
-Additionally Python binding are being implemented for some of the algorithms in the `pyorithms` directory. There is a `setup.py` file in there that can be use to test out the Python library.
-For this the package `rust-setuptools` is required, as well as a working rust compiler. From inside the `pyorithms` directory you can run the following to build the Python bindings, and create an
+Additionally Python binding are being implemented for some of the algorithms in the `pyorithms` directory. There is a `setup.py` file in there that can be used to test out the Python library.
+For this the package `setuptools_rust` is required, as well as a working rust compiler. From inside the `pyorithms` directory you can run the following to build the Python bindings, and create an
 importable python library you can test out:
 ```shell
 > python setup.py develop
