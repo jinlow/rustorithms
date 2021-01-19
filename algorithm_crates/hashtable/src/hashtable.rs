@@ -16,7 +16,7 @@ pub struct Hashtable<K, V> {
 impl<K, V> Hashtable<K, V>
 where
     K: std::cmp::Eq + Hash + std::fmt::Display,
-    V: std::cmp::Eq + std::fmt::Display,
+    V: std::cmp::PartialEq + std::fmt::Display,
 {
     pub fn new() -> Self {
         Hashtable {

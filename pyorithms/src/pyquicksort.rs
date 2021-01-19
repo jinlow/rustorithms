@@ -1,9 +1,13 @@
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
-use rustorithms;
 
+// Originally I had it set up so that the user
+// has to set up the right type for the input they
+// were interested in. But using the enum types
+// makes it easier.
 macro_rules! init_qsort_for_type {
     ($name:ident, $type:ty) => {
+        #[allow(dead_code)]
         #[pyfunction]
         pub fn $name(mut x: Vec<$type>) -> PyResult<Vec<$type>> {
             rustorithms::quicksort(&mut x);
@@ -29,10 +33,13 @@ pub enum QsInputs {
 }
 
 /// Implementation of Quicksort in Rust
+///
+/// # Arguments
+///
+/// * `x` - Input iterable to sort
 #[pyfunction]
-pub fn qsort(x: QsInputs) -> PyResult<PyObject> {
-    let gil = Python::acquire_gil();
-    let py = gil.python();
+#[text_signature = "(x)"]
+pub fn qsort(py: Python, x: QsInputs) -> PyResult<PyObject> {
     match x {
         QsInputs::Int(mut i) => {
             rustorithms::quicksort(&mut i);

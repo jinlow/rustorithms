@@ -1,4 +1,5 @@
 mod pyquicksort;
+mod pyhashtable;
 use pyo3::wrap_pymodule;
 use pyo3::prelude::*;
 
@@ -11,5 +12,6 @@ fn quicksort(_py: Python, m: &PyModule) -> PyResult<()>{
 #[pymodule]
 fn pyorithms(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pymodule!(quicksort))?;
+    m.add_class::<pyhashtable::HashTable>()?;
     Ok(())
 }
