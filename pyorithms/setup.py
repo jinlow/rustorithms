@@ -15,7 +15,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Rust",
     ],
-    rust_extensions=[RustExtension("pyorithms.pyorithms")],
+    rust_extensions=[RustExtension("pyorithms.pyorithmslib")],
     packages=["pyorithms"],
     include_package_data=True,
     zip_safe=False,

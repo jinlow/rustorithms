@@ -1,1 +1,1 @@
-from .pyorithms import *
+from .pyorithmslib import qsort, HashTable

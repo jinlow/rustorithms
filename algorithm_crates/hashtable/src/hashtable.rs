@@ -150,6 +150,16 @@ where
             }
         }
     }
+
+    pub fn string_repr(&self) -> String {
+        let mut ht_repr: String = "Hashtable Data:\n".to_owned();
+        for i in self.data.iter() {
+            if let Some(d) = i {
+                ht_repr.push_str(format!("  {}, {}\n", d.1, d.2).as_str());
+            }
+        }
+        ht_repr
+    }
 }
 
 /// Calculate the has value for a specific

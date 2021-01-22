@@ -1,21 +1,38 @@
-from pyorithms import quicksort as qs
+import pyorithmslib as ps
+from statistics import stdev, mean
+import time
+from typing import List
+import random
 
-i = [4, 3, 5, 1]
-print(f"Int: Unsorted {i}, sorted {qs.qsort(i)}")
+random.seed(123)
+rand_ints = [random.choice(range(10_000)) for i in range(300_000)]
 
-s = ["4", "3", "5", "1"]
-print(f"Str: Unsorted {i}, sorted {qs.qsort(s)}")
+RUNS = 300
 
-f = [4.0, 3.0, 5.0, 1.0]
-print(f"Float: Unsorted {i}, sorted {qs.qsort(f)}")
+qsort_time: List[float] = []
+for i in range(RUNS):
+    start = time.time()
+    ps.qsort(rand_ints)
+    qsort_time.append(time.time() - start)
 
-def quicksort(array):
-    if len(array) < 2:
-        return array
-    else:
-        pivot = array[0]
-        less = [i for i in array[1:] if i <= pivot]
-    
-        greater = [i for i in array[1:] if i > pivot]
+sorted_time: List[float] = []
+for i in range(RUNS):
+    start = time.time()
+    sorted(rand_ints)
+    sorted_time.append(time.time() - start)
 
-        return quicksort(less) + [pivot] + quicksort(greater)
+measures = ["Min", "Max", "Mean", "Stdev"]
+print("      Function: " + "".join(f"{m:<9}" for m in measures))
+print(
+    f"ps.quicksort(): {min(qsort_time):.5f}  "
+    + f"{max(qsort_time):.5f}  "
+    + f"{mean(qsort_time):.5f}  "
+    + f"{stdev(qsort_time):.5f}  "
+)
+
+print(
+    f"sorted()      : {min(sorted_time):.5f}  "
+    + f"{max(sorted_time):.5f}  "
+    + f"{mean(sorted_time):.5f}  "
+    + f"{stdev(sorted_time):.5f}  "
+)

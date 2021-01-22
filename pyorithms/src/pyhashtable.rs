@@ -1,6 +1,7 @@
 use pyo3::prelude::*;
 use std::hash::Hash;
 use std::fmt;
+use pyo3::PyObjectProtocol;
 
 #[derive(FromPyObject, Hash, std::cmp::PartialEq, std::cmp::Eq)]
 pub enum HKey {
@@ -53,12 +54,14 @@ impl HashTable {
     }
 
     /// Add item to the HashTable
+    #[text_signature = "(k, v)"]
     pub fn add(&mut self, k: HKey, v: HVal) -> PyResult<()> {
         self.ht.add(k, v);
         Ok(())
     }
 
     /// Get HashTable item for a given key.
+    #[text_signature = "(k)"]
     pub fn get(&self, py: Python, key: HKey) -> PyResult<PyObject> {
         let v = match self.ht.get(key) {
             Some(val) => val,
@@ -73,6 +76,7 @@ impl HashTable {
     }
 
     /// Delete item given a specific key
+    #[text_signature = "(k)"]
     pub fn delete(&mut self, key: HKey) -> PyResult<()> {
         // TODO: Deal with error
         self.ht.delete(key);
@@ -84,6 +88,23 @@ impl HashTable {
         self.ht.print_ht();
         Ok(())
     }
+
+    fn __repr__(&self) -> PyResult<String> {
+        Ok(self.ht.string_repr())
+    }
+
+    fn __str__(&self) -> PyResult<String> {
+        Ok(self.ht.string_repr())
+    }
 }
 
+#[pyproto]
+impl PyObjectProtocol for HashTable {
+    fn __str__(&self) -> PyResult<String>   {
+        Ok(self.ht.string_repr())
+    }
 
+    fn __repr__(&self) -> PyResult<String> {
+        Ok(self.ht.string_repr())
+    }
+}
