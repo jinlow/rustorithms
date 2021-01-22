@@ -6,7 +6,7 @@ Python Bindings for Rustorithms
 This package has python bindings to the rustorithm algorithms.  
 
 _Why would you need a library of python bindings to algorithms that are already implemented everywhere?_  
-You probably don't... This project is, more or less, just for kicks. It also serves as a POC for implementing things that can maybe be done faster in rust, than if they were built in pure python. Also it's fun 😃
+You probably don't... This project is, more or less, just for kicks. It also serves as a POC for implementing things that can maybe be done faster in rust, than if they were built in pure python. Also, it's fun 😃
  
 ------------
 Installation
@@ -15,7 +15,7 @@ The easiest way to install this package is directly from this repo subfolder. Th
 ```shell
 > pip install setuptools-rust
 ```
-After that you can clone the rustorithms repo then run either of the following two commands.  
+After that you can clone the rustorithms repo then run either of the following two commands from inside the pyorithms directory.  
 _Create a debug build for testing_
 ```shell
 > python setup.py develop
