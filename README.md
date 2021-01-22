@@ -31,4 +31,4 @@ importable python library you can test out:
 ```shell
 > python setup.py develop
 ```
-For more information take a look at the [pyorithms README](pyorithms/README.md)
+For more information take a look at the [pyorithms README](pyorithms/)

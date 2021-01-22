@@ -1,6 +1,6 @@
 Pyorithms
 ===========
-Rustorithms Python Bindings
+Python Bindings for Rustorithms
 ------------------------------
 
 This package has python bindings to the rustorithm algorithms.  
