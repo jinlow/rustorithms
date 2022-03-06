@@ -1,22 +1,18 @@
 # rustorithms
-## Exploring Grokking Algorithms With Rust
-Working through examples from the book Grokking Algorithms by Aditya Bhargava. This repo is largely to explore Rust a little more.
+## Exploring Algorithms With Rust
+Implementing different algorithms in rust. The algorithms are common ones, where I have mainly been using the books Grokking Algorithms by Bhargava, and then Intro to Algorithms by Cormen, Rivest, Leiserson, and Stein. 
 
-The following algorithms have been implemented using Rust as examples of topics inspired by the book.
-  - Chapter 1
-    + Binary Search
-  - Chapter 2
-    + Linked List
-    + Selection Sort
-  - Chapter 3
-    + Recursion
-  - Chapter 4
-    + Quicksort
-  - Chapter 5
-    + Hashtable
+The following algorithms have been implemented.
+  - Binary Search
+  - Linked List
+  - Selection Sort
+  - Insertion Sort
+  - Merge Sort
+  - Quick Sort
+  - Hashtable
 
 ### Trying yourself...
-Each algorithm is implemented as a separate rust crate. The code all was built using rust 1.46.0.  
+Each algorithm is implemented as a separate rust crate.
 Examples of all of the algorithms are provided in the `examples/` directory. To run them, clone this repo, and the examples can be run with cargo:
 ```shell
 > cd rustorithms

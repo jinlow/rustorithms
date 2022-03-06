@@ -14,3 +14,5 @@ hashtable = {version="0.1.0", path="algorithm_crates/hashtable"}
 linked_list = {version="0.1.0", path="algorithm_crates/linked_list"}
 quicksort = {version="0.1.0", path="algorithm_crates/quicksort"}
 selection_sort = {version="0.1.0", path="algorithm_crates/selection_sort"}
+merge_sort = {version="0.1.0", path="algorithm_crates/merge_sort"}
+insertion_sort = {version="0.1.0", path="algorithm_crates/insertion_sort"}

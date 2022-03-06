@@ -1,6 +1,6 @@
 use std::cmp::PartialOrd;
 
-fn insertion_sort<T: PartialOrd + Copy>(x: &mut [T], ascending: bool) {
+pub fn insertion_sort<T: PartialOrd + Copy>(x: &mut [T], ascending: bool) {
     let mut key;
     let mut i;
     for j in 1..x.len() {
