@@ -1,6 +1,6 @@
 # rustorithms
 ## Exploring Algorithms With Rust
-Implementing different algorithms in rust. The algorithms are common ones, where I have mainly been using the books Grokking Algorithms by Bhargava, and then Intro to Algorithms by Cormen, Rivest, Leiserson, and Stein. 
+Implementing different algorithms in rust. The algorithms are common ones, where I have mainly been using the books Grokking Algorithms by Bhargava, and then Intro to Algorithms by Cormen, Rivest, Leiserson, and Stein for reference.
 
 The following algorithms have been implemented.
   - Binary Search
